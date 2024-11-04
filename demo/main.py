@@ -6,6 +6,7 @@ import os
 from dotenv import load_dotenv
 import logging
 from openai import OpenAI
+import asyncio
 
 # Load environment variables
 load_dotenv()
@@ -40,16 +41,18 @@ class ChatResponse(BaseModel):
 @app.post("/chat", response_model=ChatResponse)
 async def chat_endpoint(request: ChatRequest) -> ChatResponse:
     try:
-        #logger.debug(f"Received request: {request}")
+        # logger.debug(f"Received request: {request}")
         # Use GPT to generate a response
         print(request.message)
-        response = client.chat.completions.create(
-            messages=[{"role": "user", "content": request.message}],
-            model="gpt-4o",
-            max_tokens=150
+        gpt_response = await asyncio.to_thread(client.chat.completions.create,
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": request.message}
+            ]
         )
-        result = response['choices'][0].message.content
-        print(result)
+        response = gpt_response.choices[0].message.content
+        print(response)
         return ChatResponse(response=response)
     except Exception as e:
         logger.error(f"An error occurred: {e}")
