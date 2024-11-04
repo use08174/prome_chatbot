@@ -48,7 +48,7 @@
         #chatbot-content {
             padding: 10px;
             overflow-y: auto;
-            height: calc(100% - 40px);
+            height: calc(100% - 80px);
         }
     </style>
 </head>
@@ -57,7 +57,7 @@
 
     <div id="chatbot-window">
         <div id="chatbot-header">Chatbot</div>
-        <div id="chatbot-content" id="chat-content">
+        <div id="chatbot-content">
             <p>Welcome! How can I help you today?</p>
         </div>
         <div id="chatbot-input" style="padding: 10px;">
@@ -69,7 +69,7 @@
     <script>
         const chatbotIcon = document.getElementById('chatbot-icon');
         const chatbotWindow = document.getElementById('chatbot-window');
-        const chatContent = document.getElementById('chat-content');
+        const chatContent = document.getElementById('chatbot-content');
         const userInput = document.getElementById('user-input');
         const sendButton = document.getElementById('send-button');
 
@@ -92,8 +92,8 @@
                 chatContent.appendChild(userMessageElement);
                 userInput.value = '';
                 
-                // Send message to the chatbot API
-                fetch('https://your-chatbot-api-endpoint.com/chat', {
+                // Send message to the chatbot API using FastAPI
+                fetch('http://localhost:8000/chat', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
