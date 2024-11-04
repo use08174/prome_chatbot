@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Icon Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        /* Chatbot Icon Styles */
+        #chatbot-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #007bff;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+        }
+        /* Chatbot Window Styles */
+        #chatbot-window {
+            display: none;
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 300px;
+            height: 400px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        #chatbot-header {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 10px 10px 0 0;
+            font-weight: bold;
+        }
+        #chatbot-content {
+            padding: 10px;
+            overflow-y: auto;
+            height: calc(100% - 40px);
+        }
+    </style>
+</head>
+<body>
+    <div id="chatbot-icon">💬</div>
+
+    <div id="chatbot-window">
+        <div id="chatbot-header">Chatbot</div>
+        <div id="chatbot-content" id="chat-content">
+            <p>Welcome! How can I help you today?</p>
+        </div>
+        <div id="chatbot-input" style="padding: 10px;">
+            <input type="text" id="user-input" placeholder="Type a message..." style="width: calc(100% - 20px); padding: 5px;">
+            <button id="send-button" style="margin-top: 5px;">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const chatbotIcon = document.getElementById('chatbot-icon');
+        const chatbotWindow = document.getElementById('chatbot-window');
+        const chatContent = document.getElementById('chat-content');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+
+        // Toggle chatbot window on icon click
+        chatbotIcon.addEventListener('click', () => {
+            if (chatbotWindow.style.display === 'none' || chatbotWindow.style.display === '') {
+                chatbotWindow.style.display = 'block';
+            } else {
+                chatbotWindow.style.display = 'none';
+            }
+        });
+
+        // Send message to chatbot API
+        sendButton.addEventListener('click', () => {
+            const userMessage = userInput.value;
+            if (userMessage.trim() !== '') {
+                // Display user message
+                const userMessageElement = document.createElement('p');
+                userMessageElement.textContent = `You: ${userMessage}`;
+                chatContent.appendChild(userMessageElement);
+                userInput.value = '';
+                
+                // Send message to the chatbot API
+                fetch('https://your-chatbot-api-endpoint.com/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message: userMessage })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Display chatbot response
+                    const botMessageElement = document.createElement('p');
+                    botMessageElement.textContent = `Bot: ${data.response}`;
+                    chatContent.appendChild(botMessageElement);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    const errorMessageElement = document.createElement('p');
+                    errorMessageElement.textContent = 'Bot: Sorry, something went wrong.';
+                    chatContent.appendChild(errorMessageElement);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
