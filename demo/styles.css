@@ -1,0 +1,62 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Chatbot Icon Styles */
+#chatbot-icon {
+    position: fixed;
+    bottom: 100px;
+    right: 200px;
+    width: 62px;
+    height: 60px;
+    cursor: pointer;
+    animation: floating 3s ease-in-out infinite;
+}
+
+#chatbot-icon-img {
+    width: 300%;
+    height: 200%;
+    object-fit: cover; /* 이미지가 버튼 안에 맞도록 조정 */
+}
+
+/* Chatbot Window Styles */
+#chatbot-window {
+    display: none;
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 300px;
+    height: 400px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+#chatbot-header {
+    padding: 10px;
+    background-color: #7A150E;
+    color: white;
+    border-radius: 10px 10px 0 0;
+    font-weight: bold;
+}
+
+#chatbot-content {
+    padding: 10px;
+    overflow-y: auto;
+    height: calc(100% - 80px);
+}
+
+/* Floating Animation */
+@keyframes floating {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
