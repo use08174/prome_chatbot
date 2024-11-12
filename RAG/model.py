@@ -1,12 +1,14 @@
-#Before start download: https://huggingface.co/teddylee777/Llama-3-Open-Ko-8B-gguf/resolve/main/Llama-3-Open-Ko-8B-Q8_0.gguf
-
-from langchain_community.chat_models import ChatOllama
+import os
+from dotenv import load_dotenv
+from langchain_community.chat_models import ChatOpenAI
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from vectordb import vectorstore
 
-model = ChatOllama(model="llama3-ko", temperature=0)
+load_dotenv()
+
+model = ChatOpenAI(model="gpt-4o-mini", temperature=0, openai_api_key=os.getenv("OPENAI_API_KEY"))
 
 retriever = vectorstore.as_retriever(search_kwargs={'k': 3})
 
@@ -30,7 +32,7 @@ rag_chain = (
 )
 
 # Chain 실행
-query = "연장근로수당에 대해 알려 줘"
+query = "프로메테우스에서 진행하는 활동에 대해 알려줘."
 answer = rag_chain.invoke(query)
 
 print("Query:", query)

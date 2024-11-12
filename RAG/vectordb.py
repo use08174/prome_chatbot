@@ -4,7 +4,7 @@ from langchain_community.document_loaders import PyMuPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
-from langchain_community.chat_models import ChatOllama
+from langchain_community.chat_models import ChatOpenAI
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
@@ -12,8 +12,9 @@ from langchain_core.prompts import ChatPromptTemplate
 warnings.filterwarnings("ignore")
 
 # PyMuPDFLoader 을 이용해 PDF 파일 로드
-loader = PyMuPDFLoader("C:/Users/jyhan/Desktop/2024/prometheus/promichatbot/rag/rag/labor_low.pdf")
+loader = PyMuPDFLoader("C:\Prome_Chatbot\prome_chatbot\RAG\Prometheus_doc.pdf")
 pages = loader.load()
+# C:\Prome_Chatbot\prome_chatbot\RAG\labor_low.pdf
 
 
 # 문서를 문장으로 분리
@@ -40,7 +41,7 @@ vectorstore = Chroma.from_documents(docs, embeddings)
 
 # 벡터 저장소 경로 설정
 ## 현재 경로에 'vectorstore' 경로 생성
-vectorstore_path = 'C:/Users/jyhan/Desktop/2024/prometheus/promichatbot/rag/rag/vectorstore'
+vectorstore_path = 'C:\\Prome_Chatbot\\prome_chatbot\\RAG\\vectorstore'
 os.makedirs(vectorstore_path, exist_ok=True)
 
 
